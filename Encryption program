@@ -1,0 +1,65 @@
+import random
+
+c=["@", "#", "!", "%", "&", "*", "?"]
+alphabet="0abc1def2gh3ij4klm5no6pq7rs8tuv9wxyz"
+a=True
+
+
+def encrypt():
+    new_text=""
+    text = input("Enter message: ").lower()
+    shift = int(input("Enter the amount of shifts: "))
+    g=""
+
+    for character in text:
+        if character in alphabet:
+            position=alphabet.find(character)
+            new_position=(position+shift)%36
+            new_character=alphabet[new_position]
+            new_text+=new_character
+            shift += 1
+        else:
+            new_text+=character
+
+    for i in range(len(new_text)):
+        if new_text[i].isspace()==False:
+            g+=new_text[i]
+        if new_text[i].isspace()==True:
+            g+=c[random.randint(0,6)]
+
+    print("encrypted message is: ",g[::-1])
+
+
+def decrypt():
+    new_text=""
+    f=""
+    text2=input("Enter the encrypted message: ").lower()
+    shift2=int(input("Enter the amount of shifts: "))
+
+    for character in text2[::-1]:
+        if character in alphabet:
+            position = alphabet.find(character)
+            new_position = (position - shift2) % 36
+            new_character = alphabet[new_position]
+            new_text += new_character
+
+            shift2+=1
+        else:
+            new_text += character
+
+    for i in range(len(new_text)):
+        for j in range(len(c)):
+            if new_text[i]==c[j]:
+                new_text=new_text.replace(new_text[i]," ")
+
+    print("Decryped message is: ",new_text)
+
+
+while a==True:
+    b=input("Press d for decrypt and e for encrypt")
+    if b=="d":
+        decrypt()
+    elif b=="e":
+        encrypt()
+    else:
+        break
